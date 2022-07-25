@@ -20,18 +20,13 @@ defmodule PentoWeb.PromoLive do
     |> assign(:changeset, Promo.change_recipient(recipient))
   end
 
-  def handle_event(
-        "validate",
-        %{"recipient" => recipient_params},
-        %{assigns: %{recipient: recipient}} = socket
-      ) do
+  def handle_event("validate", %{"recipient" => recipient_params}, socket) do
+    socket |> Map.get("email") |> IO.puts()
     changeset =
-      recipient
+      socket.assigns.recipient
       |> Promo.change_recipient(recipient_params)
       |> Map.put(:action, :validate)
 
-    {:noreply,
-     socket
-     |> assign(:changeset, changeset)}
+    {:noreply, socket |> assign(:changeset, changeset)}
   end
 end

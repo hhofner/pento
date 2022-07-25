@@ -8,6 +8,9 @@ defmodule Pento.Catalog.Product do
     field :name, :string
     field :sku, :integer
     field :unit_price, :float
+    field :image_upload, :string
+    timestamps()
+    has_many :ratings, Rating
 
     # adds created_at and updated_at fields
     timestamps()
@@ -18,7 +21,7 @@ defmodule Pento.Catalog.Product do
     product
     # filters out the fields we need
     # AND actually casts the values
-    |> cast(attrs, [:name, :description, :unit_price, :sku])
+    |> cast(attrs, [:name, :description, :unit_price, :sku, :image_upload])
     |> validate_required([:name, :description, :unit_price, :sku])
     |> unique_constraint(:sku)
     |> validate_number(:unit_price, greater_than: 0)
